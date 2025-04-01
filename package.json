@@ -1,24 +1,56 @@
 {
   "name": "retaguarda",
   "version": "0.1.0",
+  "productName": "XSpacePay",
+  "description": "Sistema voltado para criação de bots no telegram.",
+  "author": "Pietro Menezes",
   "private": true,
+
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev:next": "next dev",
+    "dev:electron": "tsc -p tsconfig.electron.json && electron dist/main.js",
+    "dev": "concurrently \"npm run dev:next\" \"npm run dev:electron\"",
+    "build:next": "next build",
+    "build:electron": "tsc -p tsconfig.electron.json",
+    "build": "npm run build:next && npm run build:electron",
+    "dist": "npm run build && electron-builder",
+    "start": "electron dist/main.js"
   },
+  
   "dependencies": {
+    "@radix-ui/react-avatar": "^1.1.3",
+    "@radix-ui/react-dialog": "^1.1.6",
+    "next": "14.2.24",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.24"
+    "react-dom": "^18"
   },
+  
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1"
+    "electron": "^35.0.0",
+    "electron-builder": "^26.0.12",
+    "typescript": "^5",
+    "concurrently": "^8.0.0"
+  },
+
+"build": {
+  "appId": "com.xspacepay.app",
+  "productName": "XSpacePay",
+  "files": [
+    "dist/**/*",
+    "package.json"
+  ],
+  "directories": {
+    "buildResources": "build",
+    "output": "release"
+  },
+  "win": {
+    "signAndEditExecutable": false
+  },
+  "extraMetadata": {
+    "main": "dist/main.js"
   }
+}
+
 }
